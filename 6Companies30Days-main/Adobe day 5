@@ -1,0 +1,254 @@
+Minimum Genetic Mutation
+
+class Solution {
+    public int minMutation(String startGene, String endGene, String[] bank) {
+        
+    String bhu="ACGT";
+    char[] str=bhu.toCharArray();
+
+       HashSet<String> h=new HashSet<String>();
+       for(String s:bank)
+       {
+       h.add(s);
+
+       }
+     HashSet<String> visited=new HashSet<String>();
+
+     Queue<String> q=new LinkedList<String>();
+     q.add(startGene);
+     visited.add(startGene);
+     int count=0;
+     while(!q.isEmpty())
+     {
+        int n=q.size();
+        for(int k=0;k<n;k++)
+        { 
+             String s=q.poll();
+             if(s.equals(endGene))
+             return count;
+
+             for(char ch:str)
+             {
+
+                for(int i=0;i<s.length();i++)
+                {
+                      char temp[]=s.toCharArray();
+                      temp[i]=ch;
+                      String res=String.valueOf(temp);
+                      if(!visited.contains(res)&& h.contains(res))
+                      {
+                          q.add(res);
+                          visited.add(res);
+                      }
+
+
+
+
+                }
+
+
+
+
+             }
+
+
+
+
+
+        }
+
+
+
+   count++;
+
+
+     }
+
+return -1;
+
+
+
+
+
+
+
+    }
+}
+
+
+
+Knight Probability in Chessboard
+
+
+class Solution {
+    public  boolean isSafe(int i,int j,int n)
+    {
+        if(i>=0 && i<n && j>=0 && j<n)
+        return true;
+        return false;
+    }
+    public double knightProbability(int n, int k, int row, int column) {
+        
+    double curr[][]=new double[n][n];
+    double next[][]=new double[n][n];
+
+
+   curr[row][column]=1;
+
+    for(int m=1;m<=k;m++)
+    {
+  
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+              if(curr[i][j]!=0)
+              {
+
+
+                      int ni=0;
+                      int nj=0;
+                  ni=i-1;
+                  nj=j+2;
+                if(isSafe(ni,nj,n)==true)
+                {
+                    next[ni][nj]+=curr[i][j]/8.0;
+                }
+
+                  ni=i-2;
+                  nj=j+1;
+                   if(isSafe(ni,nj,n)==true)
+                {
+                    next[ni][nj]+=curr[i][j]/8.0;
+                }
+
+                  ni=i+1;
+                  nj=j+2;
+                   if(isSafe(ni,nj,n)==true)
+                {
+                    next[ni][nj]+=curr[i][j]/8.0;
+                }
+
+                  ni=i+2;
+                  nj=j+1;
+
+if(isSafe(ni,nj,n)==true)
+                {
+                    next[ni][nj]+=curr[i][j]/8.0;
+                }
+
+                  ni=i-1;
+                  nj=j-2;
+if(isSafe(ni,nj,n)==true)
+                {
+                    next[ni][nj]+=curr[i][j]/8.0;
+                }
+                  ni=i-2;
+                  nj=j-1;
+if(isSafe(ni,nj,n)==true)
+                {
+                    next[ni][nj]+=curr[i][j]/8.0;
+                }
+                 ni=i+1;
+                  nj=j-2;
+if(isSafe(ni,nj,n)==true)
+                {
+                    next[ni][nj]+=curr[i][j]/8.0;
+                }
+                  ni=i+2;
+                  nj=j-1;
+if(isSafe(ni,nj,n)==true)
+                {
+                    next[ni][nj]+=curr[i][j]/8.0;
+                }
+
+
+
+
+
+
+
+                  
+              }
+
+
+        }
+    }
+     curr=next;
+     next=new double[n][n];
+
+
+    }
+
+
+double sum=0;
+  for(int i=0;i<n;i++)
+  {
+      for(int j=0;j<n;j++)
+      {
+          sum+=curr[i][j];
+      }
+  }
+return sum;
+
+    }
+}
+
+
+Non-negative Integers without Consecutive Ones
+
+
+class Solution {
+    public int findIntegers(int n) {
+        
+
+   int ans=0;
+
+   int f[]=new int [31];
+   f[0]=1;
+   f[1]=2;
+   for(int i=2;i<31;i++)
+   {
+       f[i]=f[i-1]+f[i-2];
+   } 
+
+   int  k=30;
+   int pre_bit=0;
+   while(k>=0)
+   {
+      if ((n&1<<k)>0)
+     {
+       ans+=f[k];
+       if(pre_bit==1)
+       return ans;
+       pre_bit=1;
+
+
+     }
+     else
+     {
+         pre_bit=0;
+     }
+
+    k--;
+
+
+
+   }
+   return ans+1;
+
+
+
+
+
+
+    }
+}
+
+
+
+
+
+
+
+

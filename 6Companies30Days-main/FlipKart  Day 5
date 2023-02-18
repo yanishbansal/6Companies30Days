@@ -1,0 +1,200 @@
+1)Max Area of Island
+class Solution {
+    public int maxAreaOfIsland(int[][] grid) {
+        
+   int x=0;
+   int max=0;
+   for(int i=0;i<grid.length;i++)
+   {
+       for(int j=0;j<grid[i].length;j++)
+       {
+           
+              if(grid[i][j]==1)
+             x= dfs(grid,i,j,0,max);
+             max=Math.max(x,max);
+              
+           
+       }
+   }
+
+return max;
+
+
+
+
+    }
+
+
+    public int dfs(int[][] grid,int i,int j,int count,int max)
+    {
+        if(i<0 ||j<0||i>=grid.length||j>=grid[i].length||grid[i][j]==0)
+        {
+           
+            return  0;
+        }
+        
+        grid[i][j]=0;
+
+
+     
+     return  1+ dfs(grid,i-1,j,count,max)+dfs(grid,i+1,j,count,max)+ dfs(grid,i,j+1,count++,max) + dfs(grid,i,j-1,count++,max);
+        }
+
+
+    }
+    
+    
+    
+    2)
+    Find the City With the Smallest Number of Neighbors at a Threshold Distance
+    
+    class Pair
+{
+    int to;
+    int weight;
+     Pair(int to,int weight)
+     {
+         this.to=to;
+         this.weight=weight;
+     }
+}
+
+class Solution {
+    public int findTheCity(int n, int[][] edges, int distanceThreshold) {
+        
+ /*     //creating adajcency list
+     ArrayList<ArrayList<Pair>> adj=new ArrayList<ArrayList<Pair>>();
+      for(int i=0;i<n;i++)
+      {
+          adj.add(new ArrayList<Pair>());
+      }
+   for(int i=0;i<edges.length;i++)
+   {
+       adj.get(edges[i][0]).add(new Pair(edges[i][1],edges[i][2]));
+adj.get(edges[i][1]).add(new Pair(edges[i][0],edges[i][2]));
+
+   }
+*/
+
+
+int [][] adj=new int[n][n];
+for(int i=0;i<n;i++)
+Arrays.fill(adj[i],0);
+int ans=0;
+
+for(int i=0;i<edges.length;i++)
+{
+     adj[edges[i][0]][edges[i][1]]=edges[i][2];
+     adj[edges[i][1]][edges[i][0]]=edges[i][2];
+}
+
+   int min=Integer.MAX_VALUE;
+  
+     for(int i=0;i<n;i++)
+     {
+
+    int count=diskstras(adj,i,n,distanceThreshold);
+   if(count<=min)
+{
+    min=count;
+    ans=i;
+}
+
+     }
+
+
+return ans;
+    }
+    public int diskstras(int [][] adj,int source,int n,int distanceThreshold)
+    {
+
+         int dist[]=new int[n];
+         Arrays.fill(dist,Integer.MAX_VALUE);
+         
+         PriorityQueue<Pair> pq=new PriorityQueue<Pair>((a,b)->a.weight-b.weight);
+         dist[source]=0;
+         boolean fin[]=new boolean[n];
+         pq.add(new Pair(source,0));
+         
+         int  u=-1;
+         while(!pq.isEmpty())
+         {
+             Pair p=pq.poll();
+               u=p.to;
+              int weight=p.weight;
+              fin[u]=true;
+              for(int i=0;i<n;i++)
+              {
+              if(!fin[i] && adj[u][i]!=0)
+              {
+                  if(dist[i]>weight+adj[u][i])
+                  {
+                      dist[i]=weight+adj[u][i];
+                       pq.add(new Pair(i,dist[i]));
+                  }
+                 
+
+              }
+              }
+
+
+         }
+
+         int count=0;
+         for(int i=0;i<n;i++)
+         {
+             if(i!=source)
+             {
+                 if(dist[i]<=distanceThreshold)
+                 count++;
+             }
+         }
+
+return count;
+
+
+    } 
+}
+
+3) Number of Ways to Separate Numbers
+
+class Solution {
+    public int numberOfCombinations(String num) {
+        int n = num.length();
+        // cont[i][j] = number of combinations (mod 1e9+7) in substring(num,i,n) starting with numbers (chunsk) at least j digits
+        // so final answer is cont[0][1]
+        int[][] cont = new int[n+1][n+1];
+        for (int i = n-1; i >= 0; i--) {
+            if (num.charAt(i) == '0') continue;
+            // check once if there is a long sequence of same characters
+            int e = i;
+            while (e < n && num.charAt(e) == num.charAt(i))
+                e++;
+            int t = 1;
+            cont[i][n-i] = t;
+            for (int j = n-i-1; j > 0; j--) {
+                if (i+j+j>n) {
+                    cont[i][j] = t;
+                    continue;
+                }
+                int l;
+                if (i+j+j <= e) {
+                    // no need to check if next substring of j digits is bigger if we are within the pre-checked substring
+                    l = j;
+                } else {
+                    l = 0;
+                    while (l < j && num.charAt(i+l) == num.charAt(i+j+l))
+                        l++;
+                }
+                // pick continuation of j or j+1 digits
+                if (l == j || num.charAt(i+l) < num.charAt(i+j+l)) {
+                    t = (t + cont[i+j][j]) % 1000000007;
+                } else if (j < n) {
+                    t = (t + cont[i+j][j+1]) % 1000000007;
+                }
+                cont[i][j] = t;
+            }
+        }
+        return cont[0][1];
+    }
+}

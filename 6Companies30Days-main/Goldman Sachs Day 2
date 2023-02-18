@@ -1,0 +1,145 @@
+
+  3)  QUESTION FACTORIAL WITH TRAILING ZEROES
+  
+  class Solution {
+    public int trailingZeroes(int n) {
+      
+
+   int count=0;
+   while(n>0)
+   {
+       count=count+n/5;
+       n=n/5;
+   }
+return count;
+
+
+    }
+}
+
+
+
+4)  NUMBER OF BOOMERANGS
+
+class Solution {
+    public int numberOfBoomerangs(int[][] points) {
+        int count=0;
+    for(int i=0;i<points.length;i++)
+    {
+        HashMap<Integer,Integer> h=new HashMap<Integer,Integer>();
+        for(int j=0;j<points.length;j++)
+        {
+            if(i==j)
+            continue;
+            if(h.containsKey(dist(points[i],points[j])))
+            {
+                int get=h.get(dist(points[i],points[j]));
+                count=count+2*get;
+                h.put(dist(points[i],points[j]),get+1);
+            }
+            else
+            {
+                h.put(dist(points[i],points[j]),1);
+            }
+
+        }
+    }
+    return count;
+
+
+
+
+    }
+    public int dist(int point1[],int point2[])
+    {
+        return (point1[0]-point2[0])*(point1[0]-point2[0])+(point1[1]-point2[1])*(point1[1]-point2[1]);
+
+    }
+}
+
+
+
+
+5)  SPLIT ARRAY INTO CONSECUTIVE SUBSEQUENCES
+
+class Solution {
+    public boolean isPossible(int[] nums) {
+        HashMap<Integer,Integer> avaliabilityMap=new HashMap<Integer,Integer>();
+        HashMap<Integer,Integer> vaccancyMap=new HashMap<Integer,Integer>();
+
+for(int i=0;i<nums.length;i++)
+{
+     avaliabilityMap.put(nums[i], avaliabilityMap.getOrDefault(nums[i],0)+1);
+}
+
+for(int i=0;i<nums.length;i++)
+{
+    if( avaliabilityMap.get(nums[i])<=0)
+    continue;
+    else if(vaccancyMap.getOrDefault(nums[i],0)>0)
+    {
+        avaliabilityMap.put(nums[i],avaliabilityMap.get(nums[i])-1);
+        vaccancyMap.put(nums[i],vaccancyMap.get(nums[i])-1);
+        vaccancyMap.put(nums[i]+1,vaccancyMap.getOrDefault(nums[i]+1,0)+1);
+
+    }
+
+   
+    else if(avaliabilityMap.getOrDefault(nums[i],0)>0&& avaliabilityMap.getOrDefault(nums[i]+1,0)>0&& avaliabilityMap.getOrDefault(nums[i]+2,0)>0)
+    {
+ avaliabilityMap.put(nums[i],avaliabilityMap.get(nums[i])-1);
+ avaliabilityMap.put(nums[i]+1,avaliabilityMap.get(nums[i]+1)-1);
+  avaliabilityMap.put(nums[i]+2,avaliabilityMap.get(nums[i]+2)-1);
+   
+vaccancyMap.put(nums[i]+3,vaccancyMap.getOrDefault(nums[i]+3,0)+1);
+
+    }
+     
+    else
+    {
+        return false;
+    }
+}
+
+
+return  true;
+
+
+    }
+}
+
+
+
+6) MINIMUM CONSECUTIVE CARDS TO PICK UP
+
+class Solution {
+    public int minimumCardPickup(int[] cards) {
+       //we are creating last index array
+       int []lastindex=new int[1000001];
+       Arrays.fill(lastindex,-1);
+       int min=Integer.MAX_VALUE;
+       for(int i=0;i<cards.length;i++)
+       {
+           if(lastindex[cards[i]]!=-1)
+           {
+               min=Math.min(min,i-lastindex[cards[i]]+1);
+           }
+           lastindex[cards[i]]=i;
+       }
+
+return min==Integer.MAX_VALUE?-1:min;
+
+
+
+    }
+}
+
+
+
+
+
+
+
+
+
+

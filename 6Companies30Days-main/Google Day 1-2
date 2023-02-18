@@ -1,0 +1,129 @@
+1)Maximum Consecutive Floors Without Special Floors
+
+
+class Solution {
+    public int maxConsecutive(int bottom, int top, int[] special) {
+        int count=0;
+        int max=0;
+        int n=special.length;
+    Arrays.sort(special);
+    max=Math.max(max,special[0]-bottom);
+    max=Math.max(max,top-special[n-1]);
+    for(int i=1;i<n;i++)
+    {
+        max=Math.max(max,special[i]-special[i-1]-1);
+    }
+
+
+return max;
+
+    }
+}
+
+
+
+2) Sort an Array
+
+class Solution {
+    public int[] sortArray(int[] nums) {
+
+       mergesort(nums,0,nums.length-1);           
+return nums;
+
+
+    }
+   public void   mergesort(int nums[],int low,int high)
+     {
+         if(low<high)
+         {
+             int mid=(low+high)/2;
+             mergesort(nums,low,mid);
+             mergesort(nums,mid+1,high);
+             merge(nums,low,mid,high);
+         }
+     }
+     public int[] merge(int nums[],int low,int mid,int high)
+     {
+         int temp[]=new int[high-low+1];
+         int i=low;
+         int j=mid+1;
+         int k=0;
+         while(i<=mid&& j<=high)
+         {
+             if(nums[i]<=nums[j])
+             {
+                 temp[k++]=nums[i++];
+             }
+             else
+             {
+                 temp[k++]=nums[j++];
+             }
+         }
+         while(i<=mid)
+         {
+             temp[k++]=nums[i++];
+         }
+         while(j<=high)
+         {
+             temp[k++]=nums[j++];
+         }
+         for(int l=low;l<=high;l++)
+     {
+         nums[l]=temp[l-low];
+     }
+     return nums;
+     }
+
+
+}
+
+
+
+3)Number of Closed Islands
+
+class Solution {
+    public int closedIsland(int[][] grid) {
+        int m=grid.length;
+        int n=grid[0].length;
+        
+        int count=0;
+     for(int i=0;i<m;i++)
+     {
+         for(int j=0;j<n;j++)
+         {
+             if(grid[i][j]==0 && dfs(grid,i,j,m,n))
+             {
+                 count++;
+                
+             }
+         }
+     }
+
+
+    return count;
+
+    }
+
+
+    public boolean dfs(int [][]grid,int i,int j,int m,int n)
+    {
+
+
+   if(i<0||j<0||i>=m||j>=n)
+   return  false;
+
+
+     
+     if(grid[i][j]==1)
+     return true;
+     grid[i][j]=1;
+
+    boolean up=  dfs(grid,i-1,j,m,n);
+    boolean right=  dfs(grid,i,j+1,m,n);
+     boolean down= dfs(grid,i+1,j,m,n);
+     boolean left= dfs(grid,i,j-1,m,n);
+return (up&&right&&left&&down);
+
+
+    }
+}

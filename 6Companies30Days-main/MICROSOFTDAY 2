@@ -1,0 +1,33 @@
+Rotate Function
+
+class Solution {
+    public int maxRotateFunction(int[] arr) {
+        
+int n=arr.length;
+int sum=0;
+int dp[]=new int[n];
+Arrays.fill(dp,0);
+for(int i=0;i<n;i++)
+{
+   sum+=arr[i];
+   dp[0]+=i*arr[i];
+}
+
+int max=dp[0];
+for(int i=1;i<n;i++)
+{
+
+  dp[i]=dp[i-1]+sum-n*arr[n-i];
+  max=Math.max(max,dp[i]);
+
+}
+
+return max;
+
+    }
+}
+
+
+
+
+

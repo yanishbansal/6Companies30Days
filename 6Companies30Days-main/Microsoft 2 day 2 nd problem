@@ -1,0 +1,52 @@
+
+Largest subset divisible
+
+
+class Solution {
+    public List<Integer> largestDivisibleSubset(int[] arr) {
+        int n=arr.length;
+    //step 1 sort the array
+    Arrays.sort(arr);
+// we have to create dp array
+int dp[]=new int[n];
+//initializing dp to 1
+Arrays.fill(dp,1);
+int max=1;
+// filling up the dp array
+for(int i=1;i<n;i++)
+{
+    for(int j=i-1;j>=0;j--)
+    {
+
+        if(arr[i]%arr[j]==0)
+        {
+
+            dp[i]=Math.max(dp[i],dp[j]+1);
+        }
+
+
+    }
+    max=Math.max(max,dp[i]);
+}
+
+List<Integer> al=new ArrayList<Integer>();
+int prev=0;
+for(int i=n-1;i>=0;i--)
+{
+   if(dp[i]==max&&prev%arr[i]==0 )
+   {  
+       al.add(arr[i]);
+       max=max-1;
+       prev=arr[i];
+
+
+   }
+
+
+}
+
+return  al;
+    }
+}
+
+

@@ -1,0 +1,127 @@
+1)House Robber
+class Solution {
+    public int rob(TreeNode root) {
+       
+int ans[]=new int[2];
+      ans=getmaxmoney(root);
+      return Math.max(ans[0],ans[1]);
+
+
+    }
+public int[] getmaxmoney(TreeNode root)
+{
+      if(root==null)
+      {
+          return new int[2];
+      }
+
+  int left[]=getmaxmoney(root.left);
+  int right[]=getmaxmoney(root.right);
+
+  int res[]=new int[2];
+
+  res[0]=left[1]+root.val+right[1];
+  res[1]=Math.max(left[1],left[0])+Math.max(right[0],right[1]);
+  return res;
+
+
+}
+
+
+
+
+}
+
+
+2)The new game to Play
+
+class Solution {
+    public double new21Game(int n, int k, int maxPts) {
+       
+
+   if(k==0||n>=k-1+maxPts)
+   return 1.0;
+
+int maxscore=k-1+maxPts;
+double dp[]=new double[maxscore+1];
+dp[0]=1.0;
+double result=0.0;
+double runningscore=dp[0];
+   for(int i=1;i<=n;i++)
+   {
+     
+      dp[i]=runningscore/(double)maxPts;
+      if(i<k)
+      {
+        runningscore+=dp[i];
+      }
+      else
+      {
+          result+=dp[i];
+      }
+      if(i-maxPts>=0)
+      {
+          runningscore-=dp[i-maxPts];
+      }
+     
+    }
+    return result;
+}
+}
+
+3) Custom Sort String
+
+
+class Solution {
+    public String customSortString(String order, String s) {
+   
+int freq[]=new int[26];
+        for(char ch:s.toCharArray())
+        {
+               freq[ch-'a']++;
+
+        }
+
+     StringBuilder sb=new StringBuilder();
+     for(char ch:order.toCharArray())
+     {
+          while(freq[ch-'a']>0)
+          {
+              sb.append(ch);
+              freq[ch-'a']--;
+          }
+
+     }
+     for(int i=0;i<26;i++)
+     {
+         while(freq[i]>0)
+     {
+         sb.append((char)(i+'a'));
+         freq[i]--;
+     }
+     }
+   return sb.toString();
+
+
+    }
+}
+
+4)
+Check If a String Contains All Binary Codes of Size K
+
+class Solution {
+    public boolean hasAllCodes(String s, int k) {
+        HashSet<String> h=new HashSet<String>();
+       
+        for(int i=0;i<=s.length()-k;i++)
+        {
+               h.add(s.substring(i,i+k));
+
+        }
+           if(h.size()==Math.pow(2,k))
+           return true;
+           return false;
+
+
+    }
+}

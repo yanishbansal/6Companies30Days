@@ -1,0 +1,224 @@
+Magical String
+
+class Solution {
+    public int magicalString(int n) {
+        if(n<=0)
+        return 0;
+        if(n<=3)
+        {
+            return 1;
+        }
+      StringBuilder sb=new StringBuilder("122");
+      int count=1;
+      int p1=2;int p2=3;
+      while(p2<n)
+      {
+         if(sb.charAt(p1)=='1')
+         {
+
+             if(sb.charAt(p2-1)=='1')
+             {
+                 sb.append("2");
+             }
+             else
+             {
+                 sb.append("1");
+                 count++;
+             }
+             p2++;
+         }
+       else  if(p2+1<n)
+         {
+         if(sb.charAt(p1)=='2')
+         {
+
+          if(sb.charAt(p2-1)=='1')
+          {
+              sb.append("22");
+          }
+          else
+          {
+              sb.append("11");
+              count++;
+              count++;
+          }
+   p2++;
+   p2++;
+         }
+         }
+         else
+         {
+            if(sb.charAt(p1)=='2')
+         {
+
+          if(sb.charAt(p2-1)=='1')
+          {
+              sb.append("2");
+          }
+          else
+          {
+              sb.append("1");
+              count++;
+              
+   p2++;
+  } 
+         }
+         }
+
+p1++;
+      }
+      return count;
+    }
+}
+
+
+
+
+Count Nodes Equal to Average of Subtree
+
+class Pair
+ {
+     int height;
+     int data;
+     Pair(int height,int data)
+     {
+         this.height=height;
+         this.data=data;
+     }
+ }
+class Solution {
+    int coun;
+    public int averageOfSubtree(TreeNode root) {
+        coun=0;
+       count(root);
+       return coun;
+
+    }
+
+public Pair count(TreeNode root)
+{
+    if(root==null)
+    return new Pair(0,0);
+   if(root.left==null && root.right==null)
+   {
+        coun++;
+        return new Pair(1,root.val);
+   }
+
+   Pair lt=count(root.left);
+   Pair rt=count(root.right);
+int t=lt.height+rt.height;
+int val=lt.data+rt.data;
+int avg=(val+root.val)/(t+1);
+if(t!=0)
+{
+if(root.val==avg)
+coun++;
+}
+return new Pair(t+1,val+root.val);
+
+
+}
+
+}
+
+
+
+
+Shortest Unsorted Continuous Subarray
+
+
+
+class Solution {
+    public int findUnsortedSubarray(int[] arr) {
+
+   /*
+nt n=nums.length;
+     int start=0;
+     int end=n-1;
+
+while(start+1<n&& nums[start]<=nums[start+1])
+{
+   start++;
+
+}
+while(end-1>0 && nums[end-1]<=nums[end])
+{
+    end--;
+
+}
+if(start==n-1)
+{
+    return 0;
+}
+
+int max=Integer.MIN_VALUE;
+int min=Integer.MAX_VALUE;
+
+for(int i=start;i<=end;i++)
+{
+    max=Math.max(max,nums[i]);
+    min=Math.min(min,nums[i]);
+}
+
+while(start-1>=0&& nums[start-1]>min)
+{
+    start--;
+}
+  while(end+1<n&& nums[end+1]<max)
+  {
+      end++;
+  }
+
+
+
+return end-start+1;
+    }
+   */     
+    int start=0;
+    int end=arr.length-1;
+  
+  while(start+1<arr.length && arr[start]<=arr[start+1])
+  {
+      start++;
+  }
+  while(end-1>0 && arr[end-1]<=arr[end])
+  {
+      end--;
+  }
+  if(start==arr.length-1)
+  return 0;
+   int min=Integer.MAX_VALUE;
+   int max=Integer.MIN_VALUE;
+   for(int i=start;i<=end;i++)
+   {
+       min=Math.min(min,arr[i]);
+       max=Math.max(max,arr[i]);
+   } 
+
+
+     while(start-1>=0 && arr[start-1]>min)
+     {
+        
+             start--;
+            
+         
+     }
+
+while(end+1<arr.length && arr[end+1]<max)
+{
+    
+        end++;
+    
+    
+}
+
+
+
+
+return end-start+1;
+    }
+}
+
+
+

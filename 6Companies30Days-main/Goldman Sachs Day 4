@@ -1,0 +1,210 @@
+Get Biggest Three Rhombus Sums in a Grid
+
+class Solution {
+    int rows;
+    int cols;
+    int[][] grid;
+    
+    HashSet<Integer> set;
+    PriorityQueue<Integer> minHeap;
+    
+    public int[] getBiggestThree(int[][] grid) {
+        this.grid = grid;
+        rows = grid.length;
+        cols = grid[0].length;
+        
+        set = new HashSet();
+        minHeap = new PriorityQueue<Integer>((a, b) -> (a - b));
+        
+        
+        for(int r = 0; r < rows; r++){
+            for(int c = 0; c < cols; c++){
+                //find all the rhombus of center (r, c)
+                findRhombusWithCenter(r, c);
+            }
+        }
+        
+        //get the largest 3 rhombus 
+        int[] result = new int[minHeap.size()];
+        int i = result.length - 1;
+        while(!minHeap.isEmpty()){
+            result[i--] = minHeap.remove();
+        }
+        
+        return result;
+    }
+    
+    
+    
+    private void findRhombusWithCenter(int r, int c){
+        int sum = grid[r][c];
+        
+        if(!set.contains(sum)){
+            minHeap.add(sum);
+            if(minHeap.size() > 3) minHeap.remove();
+            set.add(sum);
+        }
+        
+        int size = 1;
+        
+        while(true){
+            
+            if(!insideGrid(r + size, c)) break;
+            if(!insideGrid(r - size, c)) break;
+            if(!insideGrid(r, c + size)) break;
+            if(!insideGrid(r, c - size)) break;
+            
+          sum = 0;
+            for(int i = 0; i <= size; i++){
+                sum += grid[r - size + i][c + i];
+                sum += grid[r - size + i][c - i];
+                
+                sum += grid[r + size - i][c + i];
+                sum += grid[r + size - i][c - i];
+            }
+
+
+            
+            sum -= grid[r + size][c];
+            sum -= grid[r - size][c];
+            sum -= grid[r][c + size];
+            sum -= grid[r][c - size];
+            
+            
+            if(!set.contains(sum)){
+                minHeap.add(sum);
+                
+                if(minHeap.size() > 3) minHeap.remove();
+                
+                set.add(sum);
+            }
+            
+            size++;
+        }
+    }
+    
+    private boolean insideGrid(int i, int j){
+        return i >= 0 && i < rows && j >= 0 && j < cols;
+    }
+}
+
+
+
+
+
+class Transaction
+{
+    String name;
+    int time;
+    int amount;
+    String city;
+    Transaction(String tran)
+    {
+        String res[]=tran.split("[,]",0);
+        name=res[0];
+        time=Integer.parseInt(res[1]);
+        amount=Integer.parseInt(res[2]);
+        city=res[3];
+
+
+
+    }
+}
+
+
+Invalid Transactions
+
+class Solution {
+    public List<String> invalidTransactions(String[] transactions) {
+        List<String> invalid=new ArrayList<>();
+     Map<String ,List<Transaction>> h=new HashMap<>();
+      for(String s:transactions)
+      {
+          
+          Transaction t=new Transaction(s);
+          h.putIfAbsent(t.name, new ArrayList<>());
+          h.get(t.name).add(t); 
+      }
+      for(String s:transactions)
+{
+ Transaction t=new Transaction(s);
+      
+      if(!isValid(t, h.getOrDefault(t.name, new ArrayList<>())))
+      {
+ 
+ //(!isValid(t,h.getOrDefault(t.name,new ArrayList<>())))
+          invalid.add(s);
+      }
+
+
+}
+return invalid;
+    }
+   public boolean isValid( Transaction t,List<Transaction> al)
+   {
+      if( t.amount>1000)
+      return false;
+
+
+      for( Transaction  ta:al)
+      {
+         if(Math.abs(t.time-ta.time)<=60 && !ta.city.equals(t.city))
+         {
+             return false;
+         }
+
+      }
+return true;
+
+   }
+
+
+}
+
+
+
+IPO
+
+class Solution {
+    public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
+        
+        int n=profits.length;
+   PriorityQueue<int[]> pq=new PriorityQueue<int[]>((a,b)->(a[1]-b[1]));
+   for(int i=0;i<n;i++)
+   {
+       pq.add(new int[]{profits[i],capital[i]});
+   }
+
+PriorityQueue<int []> maxpq=new PriorityQueue<int[]>((a,b)->(b[0]-a[0]));
+
+while((!pq.isEmpty()|| !maxpq.isEmpty()) && k>0 )
+{
+    if(!pq.isEmpty()&& pq.peek()[1]<=w)
+    {
+        maxpq.add(pq.poll());
+        
+
+    }
+    else
+    {
+        if(!maxpq.isEmpty())
+        {
+        w=w+maxpq.poll()[0];
+        k--;
+        }
+        else
+        {
+            break;
+        }
+       
+
+    }
+
+
+}
+return w;
+    
+    }
+}
+
+

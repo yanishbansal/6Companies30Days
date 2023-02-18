@@ -1,0 +1,80 @@
+1)  MAX POINTS ON A LINE 
+
+class Solution {
+    public int maxPoints(int[][] points) {
+        
+ HashMap<Double,Integer> h=new HashMap<>();
+
+int max=1;
+ int same=0;
+ int n=points.length;
+for(int i=0;i<n;i++)
+{
+    int px1=points[i][0];
+    int py1=points[i][1];
+    same=0;
+    int currmax=1;
+     for(int j=0;j<i;j++)
+     {
+       int px2=points[j][0];
+       int py2=points[j][1];
+       double slope=0;;
+       if(px1==px2 && py1==py2)
+       {
+           same++;
+           currmax++;
+       }
+       else if(px1==px2)
+       {
+           slope=Double.MAX_VALUE;
+
+       }
+       else 
+       {
+           slope=(double)(py2-py1)/(double)(px2-px1);
+       }
+
+     int hits=h.getOrDefault(slope,1)+1;
+     h.put(slope,hits);
+     currmax=Math.max(currmax,hits+same);
+
+
+     }
+     max=Math.max(currmax,max);
+     h.clear();
+
+
+}
+return max;
+
+
+    }
+}
+
+
+
+2) VALID SQUARE
+
+
+
+class Solution {
+    public boolean validSquare(int[] p1, int[] p2, int[] p3, int[] p4) {
+        
+
+        return checkvalid(p1,p2,p3,p4)||checkvalid(p1,p3,p2,p4)||checkvalid(p1,p2,p4,p3);
+    }
+
+
+    public boolean checkvalid(int []p1,int []p2,int[]p3,int[]p4)
+    {
+        return dist(p1,p2)>0 && dist(p1,p2)==dist(p2,p3) && dist(p2,p3)==dist(p3,p4) && dist(p3,p4)==dist(p4,p1)&&  dist(p1,p3)==dist(p2,p4) && dist(p2,p3)>0 && dist(p3,p4)>0&& dist(p1,p3)>0&& dist(p2,p4)>0;
+
+
+
+    }
+    public int dist(int p1[],int p2[])
+    {
+        return (p1[0]-p2[0])*(p1[0]-p2[0])+(p1[1]-p2[1])*(p1[1]-p2[1]);
+    }
+}
+

@@ -1,0 +1,90 @@
+Perfect Rectangle
+
+class Solution {
+    public boolean isRectangleCover(int[][] rectangles) {
+        
+    HashSet<String> h=new HashSet<String>();
+    int area=0;
+    int minx1=Integer.MAX_VALUE;
+    int miny1=Integer.MAX_VALUE;
+    int maxx2=Integer.MIN_VALUE;
+    int maxy2=Integer.MIN_VALUE;
+          String bottomleft=null;
+          String upperright=null;
+          String bottomright=null;
+          String upperleft=null;
+    for(int [] i: rectangles )
+    {
+            int x1=i[0];
+            int y1=i[1];
+            int x2=i[2];
+            int y2=i[3];
+            area+=Math.abs(x2-x1)*Math.abs(y2-y1);
+
+            minx1=Math.min(minx1,x1);
+            miny1=Math.min(miny1,y1);
+            maxx2=Math.max(maxx2,x2);
+            maxy2=Math.max(maxy2,y2);
+
+        bottomleft=x1+" "+y1;
+        upperright=x2+" "+y2;
+         bottomright=x2+" "+y1;
+           upperleft=x1+" "+y2;
+
+          if(!h.contains(bottomleft))
+          {
+              h.add(bottomleft);
+          }
+          else
+          {
+              h.remove(bottomleft);
+          }
+      
+          if(!h.contains(upperright))
+          {
+              h.add(upperright);
+          }
+          else
+          {
+              h.remove(upperright);
+          }
+
+          if(!h.contains(bottomright))
+          {
+              h.add(bottomright);
+          }
+          else
+          {
+              h.remove(bottomright);
+          }
+
+          if(!h.contains(upperleft))
+          {
+              h.add(upperleft);
+          }
+          else
+          {
+              h.remove(upperleft);
+          }
+    }
+
+  String bl=minx1+" "+miny1;
+  String ur=maxx2+" "+maxy2;
+  String br=maxx2+" "+miny1;
+  String ul=minx1+" "+maxy2;
+  int totalarea=Math.abs(minx1-maxx2)*Math.abs(miny1-maxy2);
+
+if(totalarea!=area)
+return false;
+if(!(h.size()==4)||!h.contains(bl)||!h.contains(ur)||!h.contains(br)||!h.contains(ul))
+{
+    return false;
+}
+return true;
+
+    }
+}
+
+
+
+

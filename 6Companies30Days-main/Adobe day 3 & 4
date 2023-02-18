@@ -1,0 +1,283 @@
+
+14)  Number of People Aware of a Secret
+
+
+class Solution {
+    public int peopleAwareOfSecret(int n, int delay, int forget) {
+        long mod=1000000007;
+        long dp[]=new long[n+1];
+        dp[0]=0l;
+        dp[1]=1l;
+       long noofpeoplesharingthesecret=0;
+      for(int  i=2;i<=n;i++)
+      {
+         long noofnewpersonsknowingthesceret=dp[Math.max(i-delay,0)];
+         long noofforgettingpeople=dp[Math.max(i-forget,0)];
+           noofpeoplesharingthesecret+= (noofnewpersonsknowingthesceret-noofforgettingpeople);
+           dp[i]=noofpeoplesharingthesecret%mod;
+      }
+
+    long ans=0;
+    for(int i=n-forget+1;i<=n;i++)
+    {
+        ans=ans+dp[i];
+        ans=ans%mod;
+    }
+
+      return(int) ans;
+
+    }
+}
+
+13) Dungeon Game
+
+class Solution {
+    public int calculateMinimumHP(int[][] dungeon) {
+        
+    int m=dungeon.length;
+    int n=dungeon[0].length;
+
+    int dp[][]=new int[m+1][n+1];
+    for(int i=0;i<=m;i++)
+    {
+        Arrays.fill(dp[i],Integer.MAX_VALUE);
+    }
+
+    dp[m][n]=1;
+    dp[m][n-1]=1;
+    dp[m-1][n]=1;
+
+for(int i=m-1;i>=0;i--)
+{
+    for(int j=n-1;j>=0;j--)
+    {
+        int min=Math.min(dp[i+1][j],dp[i][j+1])-dungeon[i][j];
+        dp[i][j]=(min<=0)?1:min;
+    }
+}
+
+return dp[0][0];
+    }
+}
+
+
+11)   Stock Price Fluctuation 
+
+
+
+class StockPrice {
+    
+    int time=0;
+    int curr=0;
+    TreeSet<Integer> t=new TreeSet<Integer>();
+    HashMap<Integer,Integer> ocur=new HashMap<>();
+        HashMap<Integer,Integer> h=new HashMap<Integer,Integer>();
+    public StockPrice() {
+        
+        
+    }
+    
+    public void update(int timestamp, int price) {
+
+
+curr=Math.max(curr,timestamp);
+
+
+if(h.containsKey(timestamp))
+{
+    
+    int exclude=h.get(timestamp);
+    if(ocur.containsKey(exclude))
+    {
+    if(ocur.get(exclude)==1)
+    {
+        t.remove(exclude);
+        ocur.remove(exclude);
+    }
+    else if(ocur.get(exclude)>1)
+    {
+          ocur.put(exclude,ocur.get(exclude)-1);
+    }
+    }
+ 
+    
+    
+}
+h.put(timestamp,price);
+
+if(t.contains(price))
+{
+
+    ocur.put(price,ocur.get(price)+1);
+}
+
+else
+{
+    ocur.put(price,1);
+    t.add(price);
+}
+    }
+    
+    public int current() {
+        return h.get(curr);
+    }
+    
+    public int maximum() {
+        
+      return  t.last();
+    }
+    
+    public int minimum() {
+     return t.first(); 
+    }
+}
+
+
+7) Matching Subsequences
+
+class Solution {
+    public int numMatchingSubseq(String s, String[] words) {
+
+        HashMap<String,Integer> h=new HashMap<String,Integer>();
+        for(String w:words)
+        {
+            h.put(w,h.getOrDefault(w,0)+1);
+        }
+int ans=0;
+        char []ch=s.toCharArray();
+        for(String w:h.keySet())
+        {
+
+       char[]  temp=w.toCharArray();
+       int i=0;
+       int j=0;
+            while(i<ch.length && j<temp.length)
+            {
+
+                if(ch[i]==temp[j])
+                {
+                    i++;
+                    j++;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            if(j==temp.length)
+            {
+                ans+=h.get(w);
+            }
+
+
+        }
+        return ans;
+    }
+}
+
+10)  Max matrix Sum
+
+
+class Solution {
+    public long maxMatrixSum(int[][] matrix) {
+         int count=0;
+         long sum=0;
+         long min=Long.MAX_VALUE;
+         for(int i=0;i<matrix.length;i++)
+         {
+           for(int j=0;j<matrix[i].length;j++)
+           {
+               if(matrix[i][j]<0)
+               count++;
+               long num=(long)Math.abs(matrix[i][j]);
+min=Math.min(num,min);
+      sum+=num;
+
+
+           }
+
+
+         }
+     if(count%2==0)
+     return sum;
+     return sum-2*(min);
+
+
+
+
+
+    }
+}
+
+
+15)  Kth smallest Trimmed number
+
+
+class Pair
+{
+  String x;
+  int i;
+  Pair(String x,int i)
+  {
+      this.x=x;
+      this.i=i;
+  }
+
+
+ 
+}
+class Solution {
+    public int[] smallestTrimmedNumbers(String[] nums, int[][] queries) {
+        
+int n=queries.length;
+int res[]=new int[n];
+for(int i=0;i<n;i++)
+{
+       res[i]=findsmallest(queries[i][0],queries[i][1],nums);
+  
+
+}
+return res;
+
+
+    }
+
+public int findsmallest(int index,int trim,String[] nums)
+{
+    
+
+int n=nums[0].length();
+int havetotrim=n-trim;
+PriorityQueue<Pair> max=new PriorityQueue<Pair>(
+new Comparator<Pair>(){
+public int compare(Pair p1,Pair p2)
+{
+
+    if(p1.x.equals(p2.x))
+    {
+        return p2.i-p1.i;
+    }
+     return  p2.x.compareTo(p1.x);
+}
+
+}
+
+);
+
+ for(int i=0;i<nums.length;i++)
+ {
+    
+    String temp= nums[i].substring(havetotrim);
+            
+             max.offer(new Pair(temp,i));
+             if(max.size()>index)
+             max.poll();
+         
+     }
+   
+  return max.peek().i;
+
+}
+
+}
+

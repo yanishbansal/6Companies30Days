@@ -1,0 +1,62 @@
+Course Scheduling
+
+
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prereq) {
+        ArrayList<ArrayList<Integer>> adj=new ArrayList<ArrayList<Integer>>();
+
+        for(int i=0;i<numCourses;i++)
+        {
+            adj.add(new ArrayList<Integer>());
+        }
+       
+       for(int i=0;i<prereq.length;i++)
+       {
+           for(int j=0;j<1;j++)
+           {
+               adj.get(prereq[i][1]).add(prereq[i][0]);
+           }
+       }
+
+      //checking cycle exist or not;
+      int V=numCourses;
+     int[] indegree=new int[V];
+     for(int i=0;i<adj.size();i++)
+     {
+         for(int j=0;j<adj.get(i).size();j++)
+         {
+             indegree[adj.get(i).get(j)]++;
+         }
+     }
+     Queue<Integer> q=new LinkedList<Integer>();
+     for(int i=0;i<indegree.length;i++)
+     {
+         if(indegree[i]==0)
+         {
+             q.add(i);
+         }
+     }
+     int count=0;
+     while(!q.isEmpty())
+     {
+         int k=q.poll();
+         count++;
+         for(int i:adj.get(k))
+         {
+             indegree[i]--;
+             if(indegree[i]==0)
+             q.add(i);
+         }
+     }
+
+
+
+return count==V;
+
+
+
+    }
+}
+
+
+

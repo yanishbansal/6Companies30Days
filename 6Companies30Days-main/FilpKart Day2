@@ -1,0 +1,248 @@
+
+2)Sale and Offers at Flipkart BBD
+
+class Solution {
+    public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
+        
+       int max[]=new int[1];
+       max[0]=Integer.MIN_VALUE;
+      return findleast(0,price,special,needs,max);
+     
+
+    }
+    public int findleast(int index,List<Integer> price,List<List<Integer>> special, List<Integer> need,int[] max)
+    {
+           max[0]=findval(price,need);
+          
+          for(int i=index;i<special.size();i++)
+          {
+                List<Integer> l=special.get(i);
+               List<Integer> temp = new ArrayList<Integer>();
+                for(int j=0;j<need.size();j++)
+                {
+                    if(need.get(j)<l.get(j))
+                    {
+                        temp=null;
+                        break;
+                    }
+                    temp.add(need.get(j)-l.get(j));
+
+
+                }
+              if(temp!=null)
+              {
+                  max[0]=Math.min(max[0],l.get(l.size()-1)+findleast(i,price,special,temp,max));
+
+              }
+
+
+
+          }
+
+
+
+return max[0];
+
+
+    }
+
+    public int findval(List<Integer> price, List<Integer> needs)
+    {
+        int val=0;
+        for(int i=0;i<price.size();i++)
+        {
+            val+= price.get(i)*needs.get(i);
+
+        }
+        return val;
+    }
+}
+
+
+
+3)Remove Zero Sum Consecutive Nodes from Linked List
+
+class Solution {
+    public ListNode removeZeroSumSublists(ListNode head) {
+        
+        if(head==null)
+        return null;
+   HashMap<Integer,ListNode> h=new HashMap<>();
+
+   ListNode dummyNode=new ListNode(0);
+   dummyNode.next=head;
+   h.put(0,dummyNode);
+int prefixsum=0;
+   while(head!=null)
+   {
+        prefixsum+=head.val;
+        if(h.containsKey(prefixsum))
+      {
+      ListNode nodebeforesamesum=h.get(prefixsum);
+       int sum=prefixsum;
+      ListNode toberomoved=nodebeforesamesum.next;
+      while(toberomoved!=head)
+      {
+         sum=sum+toberomoved.val;
+         h.remove(sum);
+         toberomoved=toberomoved.next;
+
+      }
+
+nodebeforesamesum.next=head.next;
+   }
+else
+{
+    h.put(prefixsum,head);
+}
+
+head=head.next;
+   }
+
+return dummyNode.next;
+
+
+
+
+    }
+}
+
+4)Winner of the Game
+
+
+class Solution {
+    public int findTheWinner(int n, int k) {
+        
+
+    int ans=findwinneer(n,k);
+    return ans+1;
+
+
+
+
+    }
+    public int findwinneer(int n,int k)
+    {
+        if(n==1)
+        return 0;
+
+        int x=(findwinneer(n-1,k)+k)%n;
+        return x;
+    }
+}
+
+
+5)Find in Mountain Array
+
+class Solution {
+    public int findInMountainArray(int target, MountainArray mountainArr) {
+
+int n=mountainArr.length();
+     int findmountain=find(mountainArr,n);
+
+     int valatmountain=mountainArr.get(findmountain);
+     if(target==valatmountain)
+     {
+         return findmountain;
+     }
+     if(target>valatmountain)
+     return -1;
+     int find=bs1(0,findmountain,target,mountainArr);
+     int find2=bs2(findmountain,n-1,target,mountainArr);
+if(find!=-1)
+return find;
+if(find2!=-1)
+return find2;
+return -1;
+
+
+
+    }
+
+    public int bs1(int l,int r,int target,MountainArray mountainArr)
+    {
+
+       while(l<=r)
+       {
+           int mid=(l+r)/2;
+           int val=mountainArr.get(mid);
+           if(val==target)
+           {
+               return mid;
+           }
+           else if(val>target)
+           {
+               r=mid-1;
+           }
+           else
+           {
+               l=mid+1;
+           }
+
+       }
+       return -1;
+
+
+
+
+    }
+      public int bs2(int l,int r,int target,MountainArray mountainArr)
+    {
+
+  while(l<=r)
+       {
+           int mid=(l+r)/2;
+           int val=mountainArr.get(mid);
+           if(val==target)
+           {
+               return mid;
+           }
+           else if(val>target)
+           {
+               l=mid+1;
+           }
+           else
+           {
+               r=mid-1;
+           }
+
+       }
+       return -1;
+
+
+      
+
+
+
+
+
+    }
+
+    public int find(MountainArray mountainArr ,int n)
+    {
+
+      int l=0;
+      int r=n-1;
+      while(l<=r)
+      {
+        int mid=(l+r)/2;
+        int val=mountainArr.get(mid);
+        if(mid>0 && mid<n-1&& mountainArr.get(mid-1)<val && mountainArr.get(mid+1)<val)
+        return mid;
+   else if(mid>0 && mountainArr.get(mid-1)<val)
+   {
+       l=mid+1;
+   }
+   else
+   {
+       r=mid;
+   }
+
+
+      }
+
+
+
+return 0;
+    }
+}

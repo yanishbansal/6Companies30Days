@@ -1,0 +1,166 @@
+Maximum Points in an Archery Competition
+
+
+class Solution {
+    int maxpoints=0;
+  int maxboob[]=new int[12];
+
+    public int[] maximumBobPoints(int numArrows, int[] aliceArrows) {
+         int bob[]=new int[12];
+         caluclatemax(aliceArrows,11,0,numArrows,bob);
+         return maxboob; 
+       
+    }
+    public void caluclatemax(int aliceArrows[],int  index,int points,int noofarrows,int bob[])
+    {
+       if(index<0||noofarrows<=0)
+       {
+           if(noofarrows>0)
+         {
+             bob[0]+=noofarrows;
+         }
+         if(points>maxpoints)
+         {
+             maxpoints=points;
+             maxboob=bob.clone();
+         }
+return;
+       }
+
+       if(noofarrows>=aliceArrows[index]+1)
+       {
+             bob[index]=aliceArrows[index]+1;
+           caluclatemax(aliceArrows,index-1,index+points,noofarrows-aliceArrows[index]-1,bob);
+           bob[index]=0;
+       }
+
+
+     caluclatemax(aliceArrows,index-1,points,noofarrows,bob);
+     bob[index]=0;
+
+
+
+    }
+}
+
+
+Count Good Triplets in Array
+
+class Solution {
+    public long goodTriplets(int[] nums1, int[] nums2) {
+        int n=nums1.length;
+        int []pos = new int[n];
+        
+        FenwickTree ft = new FenwickTree(n+1);
+        
+        for(int i=0;i<n;i++)
+            pos[nums2[i]]=i;
+        
+        long []left=new long[n];
+        long []right = new long[n];
+        
+        for(int i=0;i<n;i++){
+            int idx = pos[nums1[i]];
+            left[i] = ft.sum(idx-1);
+            ft.update(idx,1);
+        }
+        
+        ft=new FenwickTree(n+1);
+        
+        for(int i=n-1;i>=0;i--){
+            int idx = pos[nums1[i]];
+            right[i]= ft.sum(n+1)-ft.sum(idx);
+            ft.update(idx,1);
+        }
+        
+        long ans=0;
+        
+        for (int i=0;i<n;i++)
+            ans+= left[i]*right[i];
+        
+        return ans;
+    }
+}
+
+class FenwickTree {
+    int[] bit;
+    int n;
+    
+    FenwickTree(int n) {
+        this.n = n;
+        this.bit = new int[n + 2];
+    }
+    
+    public void update(int i, int val) {
+        i++;
+        while (i < bit.length) {
+            bit[i] += val;
+            i += (i & (-i));
+        }
+    }
+    
+    public int sum(int i) {
+        int sum = 0;
+        i++;
+        while (i > 0) {
+            sum += bit[i];
+            i -= (i & (-i));
+        }
+        return sum;
+    }
+}
+
+
+
+
+Good People based on Statements
+
+
+class Solution {
+    static int BAD= 0,  GOOD= 1, UNKNOWN= 2;
+
+    public int maximumGood(int[][] statements) {
+        int n= statements.length;
+        int max= 0, combos= 1<<n;
+        int[] roles= new int[n];
+		      for(int mask=1; mask<combos; mask++){
+            int count= apply(roles, mask);
+            if(possible(statements, roles))
+                max= Math.max(max, count);
+        }
+        return max;
+    }
+    
+	
+	
+    int apply(int[] roles, int mask){
+        int count= 0, n= roles.length;
+        for(int i=0; i<n; i++){
+            count+= roles[i]= mask & GOOD;
+            mask >>= 1;
+        }
+        return count;
+	
+    }
+
+    boolean possible(int[][] statements, int[] roles){
+        int n= statements.length;
+        for(int i=0; i<n; i++){
+            if(roles[i]==BAD) continue;
+            for(int j=0; j<n; j++){
+                if(statements[i][j]==UNKNOWN) continue;
+				
+                if(statements[i][j]!=roles[j]) return false; 
+            }
+        }
+        return true;
+    }    
+}
+
+
+
+
+
+
+
+

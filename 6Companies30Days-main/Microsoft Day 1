@@ -1,0 +1,156 @@
+Microsoft Day 1 three Questions
+
+
+class Solution {
+    public int evalRPN(String[] tokens) {
+        HashSet<String> al=new HashSet<String>();
+        al.add("+");
+        al.add("-");
+        al.add("*");
+        al.add("/");
+
+
+
+
+    Stack<String> st=new Stack<String>();
+    int ans=0;
+    for(int i=0;i<tokens.length;i++)
+    {
+       if(al.contains(tokens[i]))
+       {
+          
+          if(st.size()>1)
+          {
+               int second=Integer.parseInt(st.pop());
+            
+               int first=Integer.parseInt(st.pop());
+               
+
+               switch(tokens[i])
+               {
+                 case "+":
+                 ans= first+second;
+                 break;
+
+                 case "-":
+                 ans= first-second;
+                 break;
+                 case "*":
+                 ans=first* second;
+                 break;
+                 case "/":
+                 ans=first/second;
+                 break;
+  
+
+
+
+
+               }
+               st.push(String.valueOf(ans));
+          }
+       }
+
+     else 
+     {
+
+         st.push(tokens[i]);
+     }
+
+    }       
+
+if(!st.isEmpty())
+return Integer.parseInt(st.pop());
+       
+return ans;
+    }
+}
+
+
+
+2 question
+
+
+class Solution {
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        
+List<List<Integer>> res=new ArrayList();
+
+generatesubsets(1,9,new ArrayList<Integer>(), res,k,n);
+return res;
+
+
+    }
+    public void generatesubsets(int start,int end,ArrayList<Integer> al,List<List<Integer>> res,int k,int target)
+    {
+
+        if(al.size()>k)
+        {
+            return ;
+        }
+      if(target==0  &&al.size()==k )
+      {
+          res.add(new ArrayList<Integer>(al));
+          return ;
+      }
+
+for(int i=start;i<=end;i++)
+{
+
+   al.add(i);
+   generatesubsets(i+1,end,al, res,k,target-i);
+   al.remove(al.size()-1);
+
+
+}
+
+
+    }
+}
+
+
+3 rd question
+
+
+class Solution {
+    public String getHint(String secret, String guess) {
+        
+
+int n=secret.length();
+int freq1[]=new int[256];
+int freq2[]=new int[256];
+Arrays.fill(freq1,0);
+Arrays.fill(freq2,0);
+int bull=0;
+for(int i=0;i<n;i++)
+{
+   if(secret.charAt(i)==guess.charAt(i))
+   {
+       bull++;
+   }
+   else
+   {
+      freq1[secret.charAt(i)-'0']++;
+      freq2[guess.charAt(i)-'0']++;
+
+   }
+}
+int cow=0;
+
+for(int i=0;i<10;i++)
+{
+    cow+=Math.min(freq1[i],freq2[i]);
+}
+
+
+
+
+return bull+"A"+cow+"B";
+
+    }
+}
+
+
+
+
+

@@ -1,0 +1,153 @@
+1) Fraction to Recurring Decimal
+
+class Solution {
+    public String fractionToDecimal(int num, int deno) {
+       StringBuilder sb=new StringBuilder();
+      if(num>0&&deno<0 || num<0&&deno>0)
+       sb.append("-");
+      long nume=Math.abs((long)num);
+      long denom=Math.abs((long)deno);
+     
+
+       
+    long q=(nume/denom);
+       long r=(nume%denom);
+       sb.append(q);
+       HashMap<Long,Integer> h=new HashMap<Long,Integer>();
+       if(r==0)
+       {  
+        return sb.toString();
+
+       }
+       else
+       {
+           sb.append(".");
+           while(r!=0)
+           {
+              
+               if(h.containsKey(r))
+               {
+                   sb.insert(h.get(r),"(");
+                   sb.append(")");
+                   break;
+               }
+
+
+               
+                   h.put(r,sb.length());
+                   r=r*10;
+                   q=(r/denom);
+                   r=(r%denom);
+                   sb.append(q);
+               
+
+           }
+
+
+       }
+       
+
+      
+return sb.toString();
+    }
+}
+
+
+2)   Fraction to Recurring Decimal
+
+class Solution {
+    public boolean increasingTriplet(int[] nums) {
+
+
+     int first=Integer.MAX_VALUE;
+     int second=Integer.MAX_VALUE;
+     for(int i:nums)
+     {
+               if(i<=first)
+               {
+                   first=i;
+               }
+               else if(i<=second)
+               {
+                   second=i;
+               }
+               else
+               {
+                   return true;
+               }
+
+     }
+return false;
+
+
+    }
+}
+
+3)K-th Smallest in Lexicographical Order
+
+class Solution {
+    public int findKthNumber(int n, int k) {
+        int prefix=0;
+    return findKthNumbr(n,(long)k,prefix);
+
+    }
+
+  int  findKthNumbr(int n,long k,int prefix)
+    {
+      for(int i=(prefix==0)?1:0;i<=9;i++)
+      {
+
+   if(k==0)
+   return prefix;
+
+         long findelementslesstheniwithprefix=count(prefix*10+i,n);
+         if(findelementslesstheniwithprefix>=k)
+         {
+             return (int) findKthNumbr(n,k-1,prefix*10+i);
+         }
+         else
+     {
+    k=k-findelementslesstheniwithprefix;
+    }
+
+      }       
+ return prefix;
+    }
+
+
+    long count(int temp,int n)
+    { 
+        if(temp>n)
+        return 0;
+        if(temp==n)
+        return 1;
+long count=1;
+        long minprefix=temp;
+    long maxprefix=temp;
+        while(true)
+        {
+            minprefix=10*minprefix;
+            maxprefix=10*maxprefix+9;
+            if(n<minprefix)
+            break;
+           else  if(minprefix<=n && n<=maxprefix)
+            {
+                count=count+(n-minprefix+1);
+                break;
+            }
+            else
+            {
+
+                count=count+(maxprefix-minprefix+1);
+            }
+
+        }
+return count;
+
+
+
+
+    }
+}
+
+
